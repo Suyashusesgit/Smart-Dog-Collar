@@ -17,7 +17,7 @@ CORS(app)  # Enable CORS for frontend requests
 
 # Path to service account and DB URL
 SERVICE_ACCOUNT_KEY = os.getenv("FIREBASE_SERVICE_ACCOUNT_KEY", "serviceAccountKey.json")
-DATABASE_URL = os.getenv("FIREBASE_DATABASE_URL", "https://your-project-id-default-rtdb.firebaseio.com")
+DATABASE_URL = os.getenv("FIREBASE_DATABASE_URL", "https://smart-dog-8010a-default-rtdb.asia-southeast1.firebasedatabase.app")
 
 firebase_app = None
 listener_ref = None
