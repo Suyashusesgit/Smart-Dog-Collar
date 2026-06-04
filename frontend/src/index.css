@@ -1,0 +1,85 @@
+/* Import Leaflet stylesheet for mapping */
+@import 'leaflet/dist/leaflet.css';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-tactical-dark: #020617;
+  --color-tactical-card: #0f172a;
+  --color-tactical-border: #334155;
+  --color-tactical-text: #f8fafc;
+  --color-tactical-normal: #10b981;
+  --color-tactical-warning: #f59e0b;
+  --color-tactical-critical: #ef4444;
+
+  --font-tactical: "Roboto Mono", monospace;
+
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-critical: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+body {
+  margin: 0;
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+  color: #f8fafc;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Panel styles */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card-glow-indigo::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 50%);
+  pointer-events: none;
+}
+
+.glass-card-glow-rose::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(244, 63, 94, 0.15), transparent 50%);
+  pointer-events: none;
+}
+
+.glass-card-glow-emerald::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.15), transparent 50%);
+  pointer-events: none;
+}
+
+/* Leaflet Map overrides to fit dark theme */
+.leaflet-container {
+  background: #020617 !important;
+}
+
+.leaflet-bar a {
+  background-color: rgba(15, 23, 42, 0.8) !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.07) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+}
