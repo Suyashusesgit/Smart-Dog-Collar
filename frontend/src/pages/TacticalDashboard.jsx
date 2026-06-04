@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useK9Stream } from '../hooks/useK9Stream';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import { Activity, ThermometerSun, Flame, HeartPulse, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { Activity, ThermometerSun, Flame, HeartPulse, AlertTriangle, ShieldCheck, Database, Eye } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Chart as ChartJS,
@@ -242,8 +242,10 @@ const VitalsChart = React.memo(({ history }) => {
 // --- Main Dashboard Component ---
 
 export default function TacticalDashboard() {
+  const [isLiveMode, setIsLiveMode] = useState(true);
+
   // Use the optimized stream (throttle 2000ms for live stability)
-  const { telemetry, history, pathTrace } = useK9Stream(true, 2000, 30);
+  const { telemetry, history, pathTrace } = useK9Stream(isLiveMode, 2000, 30);
 
   // Evaluate statuses
   const bpmStatus = classifyStatus(telemetry.bpm, THRESHOLDS.bpmMin, THRESHOLDS.bpmMax);
@@ -284,10 +286,34 @@ export default function TacticalDashboard() {
               </p>
             </div>
           </div>
-          <div className="text-right">
-            <div className="text-xs font-tactical text-tactical-text/50">SYSTEM TIME</div>
-            <div className="text-sm font-tactical font-bold text-tactical-text/80">
-              {new Date().toISOString().split('T')[1].split('.')[0]}Z
+          <div className="flex flex-col items-end gap-3 md:flex-row md:items-center md:gap-4">
+            {/* Toggle Switch */}
+            <div className="flex bg-tactical-card/50 border border-tactical-border rounded-lg p-1 shadow-inner">
+              <button 
+                onClick={() => setIsLiveMode(true)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-widest transition-colors ${isLiveMode ? 'bg-indigo-600 text-white shadow-md' : 'text-tactical-text/50 hover:text-tactical-text/80'}`}
+              >
+                <Database className="w-4 h-4" /> Live Firebase
+              </button>
+              <button 
+                onClick={() => setIsLiveMode(false)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-widest transition-colors ${!isLiveMode ? 'bg-indigo-600 text-white shadow-md' : 'text-tactical-text/50 hover:text-tactical-text/80'}`}
+              >
+                <Eye className="w-4 h-4" /> Simulation
+              </button>
+            </div>
+            
+            {/* Connected Badge */}
+            <div className="hidden md:flex items-center gap-2 bg-tactical-card/50 border border-tactical-border px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-widest text-tactical-text/80 shadow-inner">
+              <div className={`w-2 h-2 rounded-full ${isLiveMode ? 'bg-tactical-normal shadow-[0_0_8px_rgba(16,185,129,0.8)]' : 'bg-tactical-warning shadow-[0_0_8px_rgba(245,158,11,0.8)]'} animate-pulse`}></div>
+              {isLiveMode ? 'Connected' : 'Simulating'}
+            </div>
+
+            <div className="text-right hidden lg:block ml-2 border-l border-tactical-border/50 pl-4">
+              <div className="text-[10px] font-tactical text-tactical-text/50">SYSTEM TIME</div>
+              <div className="text-sm font-tactical font-bold text-tactical-text/80">
+                {new Date().toISOString().split('T')[1].split('.')[0]}Z
+              </div>
             </div>
           </div>
         </header>
